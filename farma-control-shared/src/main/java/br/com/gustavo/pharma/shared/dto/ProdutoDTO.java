@@ -14,6 +14,8 @@ public class ProdutoDTO implements Serializable {
     private String fabricante;
     private String principioAtivo;
 
+    private Integer estoqueTotal;
+
     public ProdutoDTO(){}
 
     public ProdutoDTO(Long id, String nome, String codigoBarras, String fabricante, String principioAtivo) {
@@ -58,5 +60,13 @@ public class ProdutoDTO implements Serializable {
 
     public void setPrincipioAtivo(String principioAtivo) {
         this.principioAtivo = principioAtivo;
+    }
+
+    public Integer getEstoqueTotal() {
+        return estoqueTotal;
+    }
+
+    public void setEstoqueTotal(Integer estoqueTotal) {
+        this.estoqueTotal = estoqueTotal;
     }
 }
