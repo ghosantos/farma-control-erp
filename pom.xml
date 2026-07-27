@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>br.com.gustavo.pharma</groupId>
+    <artifactId>farma-control-erp</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <build><finalName>farma-control-erp</finalName></build>
+
+    <!-- Define que este projeto é apenas um projeto pai (agregador), responsável por organizar os módulos. -->
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>farma-control-shared</module>
+        <module>farma-control-ejb</module>
+        <module>farma-control-swing</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <!-- Centraliza as versões das dependências para que todos os módulos utilizem as mesmas versões, evitando conflitos. -->
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- Jakarta EE 10 Web Profile
+                 Fornece as APIs do Jakarta EE (EJB, JPA, CDI, Servlet, etc.).
+                 O escopo "provided" significa que essas bibliotecas já são
+                 fornecidas pelo servidor WildFly e não serão empacotadas
+                 dentro da aplicação. -->
+            <dependency>
+                <groupId>jakarta.platform</groupId>
+                <artifactId>jakarta.jakartaee-web-api</artifactId>
+                <version>10.0.0</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Driver JDBC do PostgreSQL.
+                 Permite que a aplicação se conecte ao banco de dados
+                 PostgreSQL para realizar operações. -->
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>42.7.10</version> <!-- Versão robusta e estável -->
+            </dependency>
+
+            <!-- BOM (Bill of Materials) do cliente EJB do WildFly.
+                 Não adiciona bibliotecas diretamente, mas define versões
+                 compatíveis para todas as dependências relacionadas ao
+                 cliente EJB do WildFly, evitando incompatibilidades. -->
+            <dependency>
+                <groupId>org.wildfly</groupId>
+                <artifactId>wildfly-ejb-client-bom</artifactId>
+                <version>41.0.0.Beta1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
