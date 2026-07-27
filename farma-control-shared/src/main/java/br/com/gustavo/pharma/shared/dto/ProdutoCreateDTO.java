@@ -1,7 +1,5 @@
 package br.com.gustavo.pharma.shared.dto;
 
-import jakarta.validation.constraints.NotBlank;
-
 import java.io.Serial;
 import java.io.Serializable;
 
