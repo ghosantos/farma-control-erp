@@ -7,13 +7,24 @@ import br.com.gustavo.pharma.shared.dto.ProdutoDTO;
 public class ProdutoMapper {
 
     public static ProdutoDTO toDTO(Produto produto) {
-        return new ProdutoDTO(
+        int estoqueTotal = 0;
+
+        if (!produto.getlotes().isEmpty()){
+            estoqueTotal = produto.getlotes().stream()
+                    .mapToInt(l -> l.getQuantidadeAtual())
+                    .sum();
+        }
+
+        ProdutoDTO dto = new ProdutoDTO(
                 produto.getId(),
                 produto.getNome(),
                 produto.getCodigoBarras(),
                 produto.getFabricante(),
                 produto.getPrincipioAtivo()
         );
+
+        dto.setEstoqueTotal(estoqueTotal);
+        return dto;
     }
 
     public static Produto toEntity(ProdutoCreateDTO dto) {
