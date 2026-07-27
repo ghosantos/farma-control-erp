@@ -22,11 +22,6 @@ public class ProdutoDAO {
 
     public Optional<Produto> buscarPorId(Long id){
         return Optional.ofNullable(em.find(Produto.class, id));
-//        String jpql = "SELECT p FROM Produto p WHERE p.id = :id";
-//        TypedQuery<Produto> query = em.createQuery(jpql, Produto.class);
-//        query.setParameter("id", id);
-//
-//        return query.getResultList().stream().findFirst();
     }
 
     public List<Produto> buscarTodos(){
