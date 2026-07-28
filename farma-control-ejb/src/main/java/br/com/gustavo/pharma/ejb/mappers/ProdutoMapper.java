@@ -9,22 +9,20 @@ public class ProdutoMapper {
     public static ProdutoDTO toDTO(Produto produto) {
         int estoqueTotal = 0;
 
-        if (!produto.getlotes().isEmpty()){
-            estoqueTotal = produto.getlotes().stream()
+        if (!produto.getLotes().isEmpty()){
+            estoqueTotal = produto.getLotes().stream()
                     .mapToInt(l -> l.getQuantidadeAtual())
                     .sum();
         }
 
-        ProdutoDTO dto = new ProdutoDTO(
+        return new ProdutoDTO(
                 produto.getId(),
                 produto.getNome(),
                 produto.getCodigoBarras(),
                 produto.getFabricante(),
-                produto.getPrincipioAtivo()
+                produto.getPrincipioAtivo(),
+                estoqueTotal
         );
-
-        dto.setEstoqueTotal(estoqueTotal);
-        return dto;
     }
 
     public static Produto toEntity(ProdutoCreateDTO dto) {
