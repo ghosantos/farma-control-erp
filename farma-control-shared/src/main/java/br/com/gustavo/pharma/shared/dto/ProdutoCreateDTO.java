@@ -13,6 +13,9 @@ public class ProdutoCreateDTO implements Serializable {
     private String fabricante;
     private String principioAtivo;
 
+    // Atributo opcional: se vier preenchido, salva o produto com lote; se for null, salva só o produto
+    private LoteCreateDTO loteInicial;
+
     public ProdutoCreateDTO(){}
 
     public ProdutoCreateDTO(String nome, String codigoBarras, String fabricante, String principioAtivo) {
@@ -52,5 +55,13 @@ public class ProdutoCreateDTO implements Serializable {
 
     public void setPrincipioAtivo(String principioAtivo) {
         this.principioAtivo = principioAtivo;
+    }
+
+    public LoteCreateDTO getLoteInicial() {
+        return loteInicial;
+    }
+
+    public void setLoteInicial(LoteCreateDTO loteInicial) {
+        this.loteInicial = loteInicial;
     }
 }
