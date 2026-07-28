@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -29,6 +31,9 @@ public class Produto implements Serializable {
     @Column(name = "principio_ativo", length = 255, nullable = false, unique = false)
     private String principioAtivo;
 
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Lote> lotes = new ArrayList<>();
+
     public Produto(){}
 
     public Produto(String nome, String codigoBarras, String fabricante, String principioAtivo) {
@@ -36,6 +41,12 @@ public class Produto implements Serializable {
         this.codigoBarras = codigoBarras;
         this.fabricante = fabricante;
         this.principioAtivo = principioAtivo;
+    }
+
+    // Metodo utilitário para manter os dois lados do relacionamento sincronizados na memória
+    public void adicionarLote(Lote lote){
+        lotes.add(lote);
+        lote.setProduto(this); // Irá setar a FK do Produto no Lote
     }
 
     public String getPrincipioAtivo() {
@@ -72,6 +83,10 @@ public class Produto implements Serializable {
 
     public Long getId() {
         return id;
+    }
+
+    public List<Lote> getLotes() {
+        return lotes;
     }
 
     @Override
