@@ -4,7 +4,6 @@ import br.com.gustavo.pharma.ejb.entities.Produto;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,11 +20,15 @@ public class ProdutoDAO {
     }
 
     public Optional<Produto> buscarPorId(Long id){
-        return Optional.ofNullable(em.find(Produto.class, id));
+        String jpql = "SELECT p FROM Produto p LEFT JOIN FETCH p.lotes WHERE p.id = :id";
+        return em.createQuery(jpql, Produto.class)
+                .setParameter("id", id)
+                .getResultStream()
+                .findFirst();
     }
 
     public List<Produto> buscarTodos(){
-        String jpql = "SELECT p FROM Produto p ORDER BY p.nome ASC";
+        String jpql = "SELECT DISTINCT p FROM Produto p LEFT JOIN FETCH p.lotes ORDER BY p.nome ASC";
         return em.createQuery(jpql, Produto.class).getResultList();
     }
 
