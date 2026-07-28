@@ -1,7 +1,9 @@
 package br.com.gustavo.pharma.ejb.services;
 
 import br.com.gustavo.pharma.ejb.dao.ProdutoDAO;
+import br.com.gustavo.pharma.ejb.entities.Lote;
 import br.com.gustavo.pharma.ejb.entities.Produto;
+import br.com.gustavo.pharma.ejb.mappers.LoteMapper;
 import br.com.gustavo.pharma.ejb.mappers.ProdutoMapper;
 import br.com.gustavo.pharma.shared.dto.ProdutoCreateDTO;
 import br.com.gustavo.pharma.shared.dto.ProdutoDTO;
@@ -24,13 +26,22 @@ public class ProdutoFacadeBean implements ProdutoFacadeRemote {
         validarInclusaoProduto(dto);
 
         Produto produto = ProdutoMapper.toEntity(dto);
+
+        if (dto.getLoteInicial() != null){
+            Lote loteInicial = LoteMapper.toEntity(dto.getLoteInicial());
+            produto.adicionarLote(loteInicial);
+        }
+
+        // Devido ao CascadeType.ALL, o JPA já salva o Produto e o Lote numa única transação
         produto = dao.incluir(produto);
+
         return ProdutoMapper.toDTO(produto);
     }
 
     @Override
     public ProdutoDTO buscarPorId(Long id){
-        Produto produto = dao.buscarPorId(id).orElseThrow(() -> new DomainException("Produto não encontrado"));
+        Produto produto = dao.buscarPorId(id)
+                .orElseThrow(() -> new DomainException("Produto não encontrado"));
 
         return ProdutoMapper.toDTO(produto);
     }
@@ -50,7 +61,8 @@ public class ProdutoFacadeBean implements ProdutoFacadeRemote {
             throw new DomainException("ID null");
         }
 
-        Produto produto = dao.buscarPorId(id).orElseThrow(() -> new DomainException("Produto não encontrado"));
+        Produto produto = dao.buscarPorId(id)
+                .orElseThrow(() -> new DomainException("Produto não encontrado"));
 
         validarAtualizacaoProduto(dto, id);
         aplicarAlteracoes(produto, dto);
@@ -66,7 +78,9 @@ public class ProdutoFacadeBean implements ProdutoFacadeRemote {
             throw new DomainException("ID null");
         }
 
-        Produto produto = dao.buscarPorId(id).orElseThrow(() -> new DomainException("Produto não encontrado"));
+        Produto produto = dao.buscarPorId(id)
+                .orElseThrow(() -> new DomainException("Produto não encontrado"));
+
         dao.deletar(produto);
     }
 
