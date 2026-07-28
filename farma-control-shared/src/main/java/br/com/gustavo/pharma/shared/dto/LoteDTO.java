@@ -9,6 +9,7 @@ public class LoteDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    private Long id;
     private String numeroLote;
     private Integer quantidadeAtual;
     private LocalDate dataFabricacao;
@@ -16,11 +17,20 @@ public class LoteDTO implements Serializable {
 
     public LoteDTO(){}
 
-    public LoteDTO(String numeroLote, Integer quantidadeAtual, LocalDate dataFabricacao, LocalDate dataValidade) {
+    public LoteDTO(Long id, String numeroLote, Integer quantidadeAtual, LocalDate dataFabricacao, LocalDate dataValidade) {
+        this.id = id;
         this.numeroLote = numeroLote;
         this.quantidadeAtual = quantidadeAtual;
         this.dataFabricacao = dataFabricacao;
         this.dataValidade = dataValidade;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public LocalDate getDataValidade() {
