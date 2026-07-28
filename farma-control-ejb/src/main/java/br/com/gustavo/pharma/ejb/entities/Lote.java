@@ -8,7 +8,9 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tb_lote")
+@Table(name = "tb_lote", uniqueConstraints ={
+        @UniqueConstraint(name = "uk_lote_produto", columnNames = {"numero_lote", "produto_id"}),
+})
 public class Lote implements Serializable {
 
     @Serial
@@ -18,7 +20,7 @@ public class Lote implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "numero_lote", length = 50, nullable = false, unique = true)
+    @Column(name = "numero_lote", length = 50, nullable = false)
     private String numeroLote;
 
     @Column(name = "quantidade_atual")
