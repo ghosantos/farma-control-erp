@@ -18,16 +18,21 @@ public class ProdutoDTO implements Serializable {
 
     public ProdutoDTO(){}
 
-    public ProdutoDTO(Long id, String nome, String codigoBarras, String fabricante, String principioAtivo) {
+    public ProdutoDTO(Long id, String nome, String codigoBarras, String fabricante, String principioAtivo, Integer estoqueTotal) {
         this.id = id;
         this.nome = nome;
         this.codigoBarras = codigoBarras;
         this.fabricante = fabricante;
         this.principioAtivo = principioAtivo;
+        this.estoqueTotal = estoqueTotal;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id){
+        this.id = id;
     }
 
     public String getNome() {
