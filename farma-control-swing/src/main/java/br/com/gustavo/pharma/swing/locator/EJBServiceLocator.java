@@ -15,7 +15,7 @@ public class EJBServiceLocator {
         if (produtoFacade == null) {
             try {
                 InitialContext context = new InitialContext();
-                String jndi = "ejb:/farma-control-ejb/ProdutoFacadeBean!br.com.gustavo.pharma.shared.interfaces.ProdutoFacadeRemote";
+                String jndi = "ejb:/farma-control-erp/ProdutoFacadeBean!br.com.gustavo.pharma.shared.interfaces.ProdutoFacadeRemote";
 
                 produtoFacade = (ProdutoFacadeRemote) context.lookup(jndi);
             } catch (NamingException e) {
@@ -29,7 +29,7 @@ public class EJBServiceLocator {
         if (loteFacade == null) {
             try {
                 InitialContext context = new InitialContext();
-                String jndi = "ejb:/farma-control-ejb/LoteFacadeBean!br.com.gustavo.pharma.shared.interfaces.LoteFacadeRemote";
+                String jndi = "ejb:/farma-control-erp/LoteFacadeBean!br.com.gustavo.pharma.shared.interfaces.LoteFacadeRemote";
 
                 loteFacade = (LoteFacadeRemote) context.lookup(jndi);
             } catch (NamingException e) {
