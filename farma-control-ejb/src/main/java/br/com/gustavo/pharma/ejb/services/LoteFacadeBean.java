@@ -18,9 +18,12 @@ import jakarta.inject.Inject;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Stateless
 public class LoteFacadeBean implements LoteFacadeRemote {
+
+    private static final Logger LOGGER = Logger.getLogger(LoteFacadeBean.class.getName());
 
     @Inject
     LoteDAO dao;
@@ -174,21 +177,32 @@ public class LoteFacadeBean implements LoteFacadeRemote {
     }
 
     private void validarInclusaoLote(LoteCreateDTO dto){
-        if (dto == null) {
-            throw new DomainException("Os dados do lote devem ser informados!");
+        try {
+            if (dto == null) {
+                throw new DomainException("Os dados do lote devem ser informados!");
+            }
+
+            validarCamposObrigatorios(dto.getNumeroLote(), dto.getQuantidadeAtual(), dto.getDataFabricacao(), dto.getDataValidade());
+            validarDuplicidade(dto.getNumeroLote(), dto.getProdutoId(), null);
+        }catch (DomainException e){
+            LOGGER.warning("Regra de negócio violada: " + e.getMessage());
+            throw e;
         }
 
-        validarCamposObrigatorios(dto.getNumeroLote(), dto.getQuantidadeAtual(), dto.getDataFabricacao(), dto.getDataValidade());
-        validarDuplicidade(dto.getNumeroLote(), dto.getProdutoId(), null);
     }
 
     private void validarAtualizacaoLote(LoteUpdateDTO dto, Long produtoId, Long id){
-        if (dto == null) {
-            throw new DomainException("Os dados do lote devem ser informados!");
-        }
+        try {
+            if (dto == null) {
+                throw new DomainException("Os dados do lote devem ser informados!");
+            }
 
-        validarCamposObrigatorios(dto.getNumeroLote(), dto.getQuantidadeAtual(), dto.getDataFabricacao(), dto.getDataValidade());
-        validarDuplicidade(dto.getNumeroLote(), produtoId, id);
+            validarCamposObrigatorios(dto.getNumeroLote(), dto.getQuantidadeAtual(), dto.getDataFabricacao(), dto.getDataValidade());
+            validarDuplicidade(dto.getNumeroLote(), produtoId, id);
+        }catch (DomainException e){
+            LOGGER.warning("Regra de negócio violada: " + e.getMessage());
+            throw e;
+        }
     }
 
     private void aplicarAtualizacoes(Lote lote, LoteUpdateDTO dto){

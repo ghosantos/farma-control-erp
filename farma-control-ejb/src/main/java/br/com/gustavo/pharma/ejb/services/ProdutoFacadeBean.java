@@ -14,9 +14,12 @@ import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Stateless
 public class ProdutoFacadeBean implements ProdutoFacadeRemote {
+
+    private static final Logger LOGGER = Logger.getLogger(ProdutoFacadeBean.class.getName());
 
     @Inject
     ProdutoDAO dao;
@@ -134,21 +137,31 @@ public class ProdutoFacadeBean implements ProdutoFacadeRemote {
     }
 
     private void validarInclusaoProduto(ProdutoCreateDTO dto){
-        if (dto == null) {
-            throw new DomainException("Os dados do produto devem ser informados!");
-        }
+        try {
+            if (dto == null) {
+                throw new DomainException("Os dados do produto devem ser informados!");
+            }
 
-        validarCamposObrigatorios(dto.getNome(), dto.getCodigoBarras(), dto.getFabricante(), dto.getPrincipioAtivo());
-        validarDuplicidade(dto.getNome(), dto.getCodigoBarras(), null);
+            validarCamposObrigatorios(dto.getNome(), dto.getCodigoBarras(), dto.getFabricante(), dto.getPrincipioAtivo());
+            validarDuplicidade(dto.getNome(), dto.getCodigoBarras(), null);
+        }catch (DomainException e){
+            LOGGER.warning("Regra de negócio violada: " + e.getMessage());
+            throw e;
+        }
     }
 
     private void validarAtualizacaoProduto(ProdutoUpdateDTO dto, Long id){
-        if (dto == null) {
-            throw new DomainException("Os dados do produto devem ser informados!");
-        }
+        try {
+            if (dto == null) {
+                throw new DomainException("Os dados do produto devem ser informados!");
+            }
 
-        validarCamposObrigatorios(dto.getNome(), dto.getCodigoBarras(), dto.getFabricante(), dto.getPrincipioAtivo());
-        validarDuplicidade(dto.getNome(), dto.getCodigoBarras(), id);
+            validarCamposObrigatorios(dto.getNome(), dto.getCodigoBarras(), dto.getFabricante(), dto.getPrincipioAtivo());
+            validarDuplicidade(dto.getNome(), dto.getCodigoBarras(), id);
+        }catch (DomainException e){
+            LOGGER.warning("Regra de negócio violada: " + e.getMessage());
+            throw e;
+        }
     }
 
     private void aplicarAlteracoes(Produto produto, ProdutoUpdateDTO dto){
