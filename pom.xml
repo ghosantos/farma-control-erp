@@ -15,7 +15,6 @@
     <modules>
         <module>farma-control-shared</module>
         <module>farma-control-ejb</module>
-        <module>farma-control-swing</module>
     </modules>
 
     <properties>
