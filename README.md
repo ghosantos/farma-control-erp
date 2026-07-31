@@ -109,7 +109,7 @@ Como se trata de um projeto multi-módulos, execute o comando a partir da raiz d
 ```text
 mvn clean test
 ```
-> 💡 **Nota:** Todos os testes de unidade são executados em memória via Mockito, garantindo rápida validação do código sem necessidade de subir o PostgreSQL e o WildFly.
+> 💡 **Nota:** Todos os testes de unidade são executados em memória via Mockito, garantindo rápida validação do código sem necessidade de subir o PostgreSQL.
 
 ---
 
